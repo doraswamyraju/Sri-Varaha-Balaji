@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Login | Om Sri Varaha Balaji Dormitory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Admin Specific Styling */
+    .admin-body {
+      background: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 30px;
+    }
+
+    .admin-header {
+      background: var(--royal-navy);
+      color: #ffffff;
+      padding: 16px 0;
+      border-bottom: 3px solid var(--primary-gold);
+    }
+
+    .admin-nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-badge {
+      background: var(--accent-gold-gradient);
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .admin-container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Login Screen */
+    .login-box-card {
+      max-width: 420px;
+      margin: 60px auto;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .login-icon-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--accent-gold-subtle);
+      color: var(--primary-gold-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 18px auto;
+    }
+
+    .pin-input {
+      font-size: 1.5rem;
+      letter-spacing: 0.4em;
+      text-align: center;
+      font-weight: 800;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      border: 2px solid #cbd5e1;
+      width: 100%;
+      margin: 20px 0;
+      outline: none;
+    }
+
+    .pin-input:focus {
+      border-color: var(--primary-gold);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+
+    /* Dashboard Main Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .admin-card {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 28px;
+      border: 1px solid #e2e8f0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .admin-card-title {
+      font-size: 1.25rem;
+      color: var(--royal-navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-edit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .price-edit-box {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      position: relative;
+    }
+
+    .price-edit-box.highlight {
+      border-color: var(--primary-gold);
+      background: #fffdf7;
+    }
+
+    .price-box-badge {
+      position: absolute;
+      top: -10px;
+      right: 14px;
+      background: var(--royal-navy);
+      color: #fef08a;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .price-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .currency-symbol {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--royal-navy);
+    }
+
+    .price-number-input {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--royal-navy);
+      padding: 8px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      width: 100%;
+      background: #ffffff;
+    }
+
+    .unit-input {
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      width: 100%;
+      color: var(--text-muted);
+      background: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .toast-alert {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--whatsapp-green);
+    }
+
+    .toast-alert.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 991px) {
+      .pricing-edit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="container admin-nav-container">
+      <div class="admin-title-wrap">
+        <div class="logo-icon" style="width:40px; height:40px; font-size:1.2rem;">
+          <i class="fa-solid fa-om"></i>
+        </div>
+        <div>
+          <strong style="color:#ffffff; font-size:1.1rem; display:block;">OM SRI VARAHA BALAJI</strong>
+          <span style="color:#fef08a; font-size:0.75rem;">Price & Tariff Management Portal</span>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a href="../index.html" class="btn btn-call-sm" style="padding: 6px 14px; font-size: 0.84rem; background:#ffffff; color:var(--royal-navy);">
+          <i class="fa-solid fa-globe"></i> View Website
+        </a>
+        <button id="logoutBtn" onclick="logoutAdmin()" class="btn btn-whatsapp-sm" style="padding: 6px 14px; font-size: 0.84rem; display:none; background:#fee2e2; color:#991b1b; border-color:#fca5a5;">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Card (Hidden once logged in) -->
+  <div id="loginScreen" class="admin-container">
+    <div class="login-box-card">
+      <div class="login-icon-circle">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h2 style="color:var(--royal-navy); font-size:1.5rem; margin-bottom:6px;">Staff / Admin Login</h2>
+      <p style="color:var(--text-muted); font-size:0.88rem;">Enter the 4-digit Passcode to adjust room rates and announcements.</p>
+      
+      <form onsubmit="handleLogin(event)">
+        <input type="password" id="passcode" class="pin-input" placeholder="••••" maxlength="4" autofocus required>
+        <button type="submit" class="btn btn-primary-call" style="width:100%; border-radius:var(--radius-md);">
+          <i class="fa-solid fa-key"></i> Unlock Dashboard
+        </button>
+      </form>
+      <p style="margin-top:14px; font-size:0.78rem; color:#94a3b8;">Default Passcode: <strong>1234</strong></p>
+    </div>
+  </div>
+
+  <!-- Dashboard Main Panel -->
+  <main id="dashboardScreen" class="admin-container" style="display: none;">
+    <div class="dashboard-grid">
+
+      <!-- Seasonal Banner / Special Announcement Editor -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">
+            <i class="fa-solid fa-bullhorn" style="color:var(--primary-gold);"></i> Festive Notice / Top Alert Message
+          </h3>
+          <span class="admin-badge">LIVE ON HOMEPAGE</span>
+        </div>
+        <div class="form-group">
+          <label for="inputSeasonal" style="font-size:0.88rem; font-weight:600; color:var(--royal-navy); margin-bottom:6px;">
+            Announcement Banner (displayed in the Pricing Section of website):
+          </label>
+          <input type="text" id="inputSeasonal" class="form-control" style="color:var(--royal-navy); background:#f8fafc; border:1.5px solid #cbd5e1;" placeholder="e.g. Special festive/peak season rates may vary. Call 24x7 for instant confirmation.">
+        </div>
+      </div>
+
+      <!-- Pricing Modifier Card -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">
+            <i class="fa-solid fa-tags" style="color:var(--primary-gold);"></i> Tariff & Stay Rates Adjustment
+          </h3>
+          <span style="font-size:0.82rem; color:var(--text-muted);" id="dashboardLastUpdated"></span>
+        </div>
+
+        <div class="pricing-edit-grid">
+          <!-- 1. Dormitory -->
+          <div class="price-edit-box highlight">
+            <span class="price-box-badge">Option 1</span>
+            <h4 style="font-size:1.1rem; color:var(--royal-navy); margin-bottom:12px;">
+              <i class="fa-solid fa-bed" style="color:var(--primary-gold);"></i> A/C Dormitory Bed
+            </h4>
+
+            <label style="font-size:0.8rem; font-weight:700; color:var(--royal-navy);">Transit / Hourly Rate:</label>
+            <div class="price-input-row">
+              <span class="currency-symbol">₹</span>
+              <input type="text" id="dormTransitPrice" class="price-number-input" placeholder="299">
+            </div>
+            <input type="text" id="dormTransitUnit" class="unit-input" placeholder="per bed / up to 6 hrs">
+
+            <label style="font-size:0.8rem; font-weight:700; color:var(--royal-navy);">Overnight / 24h Rate:</label>
+            <div class="price-input-row">
+              <span class="currency-symbol">₹</span>
+              <input type="text" id="dormNightPrice" class="price-number-input" placeholder="499">
+            </div>
+            <input type="text" id="dormNightUnit" class="unit-input" placeholder="per bed / 24 hrs">
+          </div>
+
+          <!-- 2. Waiting Hall -->
+          <div class="price-edit-box">
+            <span class="price-box-badge">Option 2</span>
+            <h4 style="font-size:1.1rem; color:var(--royal-navy); margin-bottom:12px;">
+              <i class="fa-solid fa-couch" style="color:var(--call-blue);"></i> Waiting Hall & Fresh-up
+            </h4>
+
+            <label style="font-size:0.8rem; font-weight:700; color:var(--royal-navy);">Quick Fresh-up Rate:</label>
+            <div class="price-input-row">
+              <span class="currency-symbol">₹</span>
+              <input type="text" id="waitTransitPrice" class="price-number-input" placeholder="149">
+            </div>
+            <input type="text" id="waitTransitUnit" class="unit-input" placeholder="per person / up to 3 hrs">
+
+            <label style="font-size:0.8rem; font-weight:700; color:var(--royal-navy);">Extended Transit Rate:</label>
+            <div class="price-input-row">
+              <span class="currency-symbol">₹</span>
+              <input type="text" id="waitNightPrice" class="price-number-input" placeholder="249">
+            </div>
+            <input type="text" id="waitNightUnit" class="unit-input" placeholder="per person / up to 6 hrs">
+          </div>
+
+          <!-- 3. Family Space -->
+          <div class="price-edit-box highlight">
+            <span class="price-box-badge">Option 3</span>
+            <h4 style="font-size:1.1rem; color:var(--royal-navy); margin-bottom:12px;">
+              <i class="fa-solid fa-house-chimney-user" style="color:#e11d48;"></i> Family Suite Space
+            </h4>
+
+            <label style="font-size:0.8rem; font-weight:700; color:var(--royal-navy);">Family Transit Rate:</label>
+            <div class="price-input-row">
+              <span class="currency-symbol">₹</span>
+              <input type="text" id="famTransitPrice" class="price-number-input" placeholder="999">
+            </div>
+            <input type="text" id="famTransitUnit" class="unit-input" placeholder="family of 4 / up to 6 hrs">
+
+            <label style="font-size:0.8rem; font-weight:700; color:var(--royal-navy);">Family 24h Stay Rate:</label>
+            <div class="price-input-row">
+              <span class="currency-symbol">₹</span>
+              <input type="text" id="famNightPrice" class="price-number-input" placeholder="1,499">
+            </div>
+            <input type="text" id="famNightUnit" class="unit-input" placeholder="family of 4 / 24 hrs">
+          </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; padding-top:20px; border-top:1px solid #e2e8f0;">
+          <div style="display:flex; gap:10px;">
+            <button onclick="handleSavePrices()" class="btn btn-primary-call" style="padding:12px 28px; border-radius:var(--radius-md);">
+              <i class="fa-solid fa-floppy-disk"></i> Save & Publish All Changes
+            </button>
+            <a href="../index.html#pricing" target="_blank" class="btn btn-whatsapp-sm" style="border-radius:var(--radius-md); padding:12px 20px;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Preview On Website
+            </a>
+          </div>
+
+          <button onclick="handleResetPrices()" class="btn" style="color:#64748b; font-size:0.88rem;">
+            <i class="fa-solid fa-rotate-left"></i> Reset to Default Rates
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toastAlert" class="toast-alert">
+    <i class="fa-solid fa-circle-check" style="color:#22c55e; font-size:1.3rem;"></i>
+    <div>
+      <strong style="display:block; font-size:0.95rem;">Changes Published Successfully!</strong>
+      <span style="font-size:0.8rem; color:#cbd5e1;">Website frontend is updated with latest prices.</span>
+    </div>
+  </div>
+
+  <script src="../pricing-data.js"></script>
+  <script>
+    const ADMIN_PASSCODE = '1234';
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const code = document.getElementById('passcode').value;
+      if (code === ADMIN_PASSCODE) {
+        sessionStorage.setItem('balaji_admin_auth', 'true');
+        showDashboard();
+      } else {
+        alert('Incorrect Passcode. Default passcode is 1234.');
+        document.getElementById('passcode').value = '';
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboardScreen').style.display = 'block';
+      document.getElementById('logoutBtn').style.display = 'inline-flex';
+      loadPricesIntoForm();
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('balaji_admin_auth');
+      window.location.reload();
+    }
+
+    function loadPricesIntoForm() {
+      const data = getPricingData();
+
+      document.getElementById('inputSeasonal').value = data.seasonalNotice || '';
+      document.getElementById('dashboardLastUpdated').textContent = `Last Saved: ${data.lastUpdated || 'Initial'}`;
+
+      // Dormitory
+      document.getElementById('dormTransitPrice').value = data.dormitory.priceTransit;
+      document.getElementById('dormTransitUnit').value = data.dormitory.unitTransit;
+      document.getElementById('dormNightPrice').value = data.dormitory.priceOvernight;
+      document.getElementById('dormNightUnit').value = data.dormitory.unitOvernight;
+
+      // Waiting Hall
+      document.getElementById('waitTransitPrice').value = data.waitingHall.priceTransit;
+      document.getElementById('waitTransitUnit').value = data.waitingHall.unitTransit;
+      document.getElementById('waitNightPrice').value = data.waitingHall.priceOvernight;
+      document.getElementById('waitNightUnit').value = data.waitingHall.unitOvernight;
+
+      // Family Space
+      document.getElementById('famTransitPrice').value = data.familySpace.priceTransit;
+      document.getElementById('famTransitUnit').value = data.familySpace.unitTransit;
+      document.getElementById('famNightPrice').value = data.familySpace.priceOvernight;
+      document.getElementById('famNightUnit').value = data.familySpace.unitOvernight;
+    }
+
+    function handleSavePrices() {
+      const currentData = getPricingData();
+
+      currentData.seasonalNotice = document.getElementById('inputSeasonal').value.trim();
+
+      // Dormitory
+      currentData.dormitory.priceTransit = document.getElementById('dormTransitPrice').value.trim();
+      currentData.dormitory.unitTransit = document.getElementById('dormTransitUnit').value.trim();
+      currentData.dormitory.priceOvernight = document.getElementById('dormNightPrice').value.trim();
+      currentData.dormitory.unitOvernight = document.getElementById('dormNightUnit').value.trim();
+
+      // Waiting Hall
+      currentData.waitingHall.priceTransit = document.getElementById('waitTransitPrice').value.trim();
+      currentData.waitingHall.unitTransit = document.getElementById('waitTransitUnit').value.trim();
+      currentData.waitingHall.priceOvernight = document.getElementById('waitNightPrice').value.trim();
+      currentData.waitingHall.unitOvernight = document.getElementById('waitNightUnit').value.trim();
+
+      // Family Space
+      currentData.familySpace.priceTransit = document.getElementById('famTransitPrice').value.trim();
+      currentData.familySpace.unitTransit = document.getElementById('famTransitUnit').value.trim();
+      currentData.familySpace.priceOvernight = document.getElementById('famNightPrice').value.trim();
+      currentData.familySpace.unitOvernight = document.getElementById('famNightUnit').value.trim();
+
+      savePricingData(currentData);
+
+      // Show Toast Notification
+      const toast = document.getElementById('toastAlert');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+
+      loadPricesIntoForm();
+    }
+
+    function handleResetPrices() {
+      if (confirm('Are you sure you want to restore default tariff pricing?')) {
+        resetPricingData();
+        loadPricesIntoForm();
+        alert('Reset to default rates successfully.');
+      }
+    }
+
+    // Auto-login if session exists
+    document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('balaji_admin_auth') === 'true') {
+        showDashboard();
+      }
+    });
+  </script>
+</body>
+</html>
